@@ -6,12 +6,14 @@ class NQueens:
     def __init__(self, start):
         self.size = 8
         positions=start[:]
+        self.state_count = 0  # Лічильник для кількості станів
         try:
             start_time = time.time()
             max_execution_time = 60  # Обмеження на час виконання програми (60 секунд).
             self.put_queen(positions, 0, start_time, max_execution_time)
         except:
             print((time.time() - start_time), "seconds")
+            print("Кількість станів:", self.state_count)  # Вивід кількості станів
 
     def put_queen(self, positions, target_row, start_time, max_execution_time):
         current_time = time.time()
@@ -21,6 +23,7 @@ class NQueens:
             raise
 
         for column in range(self.size):
+            self.state_count += 1  # Збільшення лічильника підрахунку станів
             if target_row == self.size:
                 # Якщо вдалося розмістити ферзя в кожному рядку, виводимо розв'язок та завершуємо виконання.
                 print("Результат розташування: ", positions)
@@ -62,6 +65,7 @@ def astar(start):
 
     start_time = time.time()
     max_execution_time = 60  # Обмеження на час виконання програми (60 секунд).
+    state_count = 0  # Лічильник для кількості станів
 
     while len(open_list) > 0:
         current_node = open_list[0]
@@ -83,7 +87,8 @@ def astar(start):
         if current_node.h == 0:
             print("Результат розташування: ", current_node.state)
             print((time.time() - start_time), "seconds")
-            return current_node.state
+            print("Кількість станів: ", state_count)
+            return None
 
         children = []
         for collisioned in range(0, 8):
@@ -95,7 +100,7 @@ def astar(start):
 
                     children.append(new_node)
         for child in children:
-
+            state_count += 1
             skip = False
             for closed_child in closed_list:
                 if child == closed_child:
