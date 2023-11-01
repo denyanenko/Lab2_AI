@@ -9,7 +9,7 @@ class NQueens:
         positions=start[:]
         self.state_count = 0  # Лічильник для кількості станів
         try:
-            max_execution_time = 0.0000001  # Обмеження на час виконання програми (60 секунд).
+            max_execution_time = 60  # Обмеження на час виконання програми (60 секунд).
             self.put_queen(positions, 0, start_time, max_execution_time)
         except:
             print()
@@ -66,7 +66,7 @@ def astar(start):
     open_list.append(start_node)
 
     start_time = time.time()
-    max_execution_time = 0.0001  # Обмеження на час виконання програми (60 секунд).
+    max_execution_time = 60  # Обмеження на час виконання програми (60 секунд).
     state_count = 0  # Лічильник для кількості станів
 
     while len(open_list) > 0:
