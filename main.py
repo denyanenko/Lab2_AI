@@ -4,16 +4,16 @@ import random
 # region LDFS Algorithm Implementation
 class NQueens:
     def __init__(self, start):
+        start_time = time.time()
         self.size = 8
         positions=start[:]
         self.state_count = 0  # Лічильник для кількості станів
         try:
-            start_time = time.time()
-            max_execution_time = 60  # Обмеження на час виконання програми (60 секунд).
+            max_execution_time = 0.0000001  # Обмеження на час виконання програми (60 секунд).
             self.put_queen(positions, 0, start_time, max_execution_time)
         except:
-            print((time.time() - start_time), "seconds")
-            print("Кількість станів:", self.state_count)  # Вивід кількості станів
+            print()
+
 
     def put_queen(self, positions, target_row, start_time, max_execution_time):
         current_time = time.time()
@@ -27,6 +27,8 @@ class NQueens:
             if target_row == self.size:
                 # Якщо вдалося розмістити ферзя в кожному рядку, виводимо розв'язок та завершуємо виконання.
                 print("Результат розташування: ", positions)
+                print((time.time() - start_time), "seconds")
+                print("Кількість станів:", self.state_count)  # Вивід кількості станів
                 raise
             elif self.check_place(positions, target_row, (column + positions[target_row]) % self.size):
                 # Розміщуємо ферзя в поточному стовпці та переходимо до наступного рядка.
@@ -64,7 +66,7 @@ def astar(start):
     open_list.append(start_node)
 
     start_time = time.time()
-    max_execution_time = 60  # Обмеження на час виконання програми (60 секунд).
+    max_execution_time = 0.0001  # Обмеження на час виконання програми (60 секунд).
     state_count = 0  # Лічильник для кількості станів
 
     while len(open_list) > 0:
@@ -146,7 +148,6 @@ def main():
     print("Початкове розташування: ", start,"\n")
     print("LDFS")
     NQueens(start)
-    print()
     print("A*")
     astar(start)
 
