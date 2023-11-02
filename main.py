@@ -1,19 +1,20 @@
 import time
 import random
+import psutil
+
 
 # region LDFS Algorithm Implementation
 class NQueens:
     def __init__(self, start):
         start_time = time.time()
         self.size = 8
-        positions=start[:]
+        positions = start[:]
         self.state_count = 0  # Лічильник для кількості станів
         try:
             max_execution_time = 60  # Обмеження на час виконання програми (60 секунд).
             self.put_queen(positions, 0, start_time, max_execution_time)
         except:
             print()
-
 
     def put_queen(self, positions, target_row, start_time, max_execution_time):
         current_time = time.time()
@@ -42,6 +43,8 @@ class NQueens:
                     positions[i] + i == column + ocuppied_rows:
                 return False
         return True
+
+
 # endregion
 
 # region A* Algorithm Implementation
@@ -68,6 +71,8 @@ def astar(start):
     start_time = time.time()
     max_execution_time = 60  # Обмеження на час виконання програми (60 секунд).
     state_count = 0  # Лічильник для кількості станів
+    # Set memory limit to 100 megabytes
+    memory_limit_mb = 100
 
     while len(open_list) > 0:
         current_node = open_list[0]
@@ -76,6 +81,11 @@ def astar(start):
         if (time.time() - start_time) > max_execution_time:
             print("Час виконання перевищив обмеження.")
             return None
+        current_memory = get_memory_usage()
+        if current_memory > memory_limit_mb:
+            print("Memory limit exceeded.")
+            return None
+
         for index, item in enumerate(open_list):
             if item.h < current_node.h:
                 current_node = item
@@ -139,13 +149,18 @@ def heuristic(state, collisions):
                 collisions[i] = collisions[j] = 1
                 h += 1
     return h
+def get_memory_usage():
+    process = psutil.Process()
+    return process.memory_info().rss / (1024 * 1024)
+
+
 # endregion
 
 def main():
     start = []
     for i in range(0, 8):
         start.append(random.randint(0, 7))
-    print("Початкове розташування: ", start,"\n")
+    print("Початкове розташування: ", start, "\n")
     print("LDFS")
     NQueens(start)
     print("A*")
@@ -154,4 +169,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
